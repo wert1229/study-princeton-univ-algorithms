@@ -2,11 +2,10 @@ package com.kdpark.unionfind.percolation;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
-import java.util.Arrays;
-
 public class Percolation {
 
     private final WeightedQuickUnionUF uf;
+    private final WeightedQuickUnionUF uf2;
     private final boolean[] openMap;
     private final int n;
     private final int blockCount;
@@ -18,14 +17,17 @@ public class Percolation {
         if (n <= 0) throw new IllegalArgumentException();
         this.n = n;
         blockCount = n * n;
+
         uf = new WeightedQuickUnionUF(blockCount + 2);
+        uf2 = new WeightedQuickUnionUF(blockCount + 1);
+
         top = blockCount;
         bottom = blockCount + 1;
         openMap = new boolean[blockCount];
-        Arrays.fill(openMap, false);
 
         for (int i = 0; i < n; i++) {
             uf.union(top, i);
+            uf2.union(top, i);
             uf.union(bottom, n * (n - 1) + i);
         }
     }
@@ -36,10 +38,26 @@ public class Percolation {
 
         if (openMap[idx]) return;
 
-        if (row != 1 && isOpen(row - 1, col)) uf.union(idx, getIndex(row - 1, col));
-        if (row != n && isOpen(row + 1, col)) uf.union(idx, getIndex(row + 1, col));
-        if (col != 1 && isOpen(row, col - 1)) uf.union(idx, getIndex(row, col - 1));
-        if (col != n && isOpen(row, col + 1)) uf.union(idx, getIndex(row, col + 1));
+        if (row != 1 && isOpen(row - 1, col)) {
+            int top = getIndex(row - 1, col);
+            uf.union(idx, top);
+            uf2.union(idx, top);
+        }
+        if (row != n && isOpen(row + 1, col)) {
+            int bottom = getIndex(row + 1, col);
+            uf.union(idx, bottom);
+            uf2.union(idx, bottom);
+        }
+        if (col != 1 && isOpen(row, col - 1)) {
+            int left = getIndex(row, col - 1);
+            uf.union(idx, left);
+            uf2.union(idx, left);
+        }
+        if (col != n && isOpen(row, col + 1)) {
+            int right = getIndex(row, col + 1);
+            uf.union(idx, right);
+            uf2.union(idx, right);
+        }
 
         openMap[idx] = true;
         count++;
@@ -52,7 +70,7 @@ public class Percolation {
 
     public boolean isFull(int row, int col) {
         if (row < 1 || row > n || col < 1 || col > n) throw new IllegalArgumentException();
-        return isOpen(row, col) && uf.find(getIndex(row, col)) == uf.find(top);
+        return isOpen(row, col) && uf2.find(getIndex(row, col)) == uf2.find(top);
     }
 
     public int numberOfOpenSites() {
