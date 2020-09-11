@@ -1,12 +1,13 @@
-package com.kdpark.unionfind;
+package com.kdpark.unionfind.test;
 
+import com.kdpark.unionfind.QuickUnion;
 import com.kdpark.utils.FileUtil;
 
 import java.util.Scanner;
 
-public class UnionFindTest {
+public class TestClient {
     public static void main(String[] args) {
-        Scanner sc = FileUtil.getFileReadScanner("unionfind/testset.txt");
+        Scanner sc = FileUtil.getFileReadScanner("unionfind/test/testset.txt");
 
         int N = sc.nextInt();
 
