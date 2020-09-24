@@ -1,8 +1,6 @@
 package com.kdpark.sort.test;
 
-import com.kdpark.sort.MergeSort;
-import com.kdpark.sort.QuickSort;
-import com.kdpark.sort.ShellSort;
+import com.kdpark.priorityqueue.HeapSort;
 import com.kdpark.utils.FileUtil;
 import edu.princeton.cs.algs4.StdOut;
 
@@ -23,7 +21,8 @@ public class TestClient {
 
 //        ShellSort.sort(arr);
 //        MergeSort.sort(arr);
-        QuickSort.sort(arr);
+//        QuickSort.sort(arr);
+        HeapSort.sort(arr);
 
         for (Integer integer : arr) {
             StdOut.print(integer);
