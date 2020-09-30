@@ -18,3 +18,6 @@
 * Red-Black Tree
 * B-Tree
 * K-D Tree
+## 6. Hash Table
+* LinearProbing
+* SeparateChaining
